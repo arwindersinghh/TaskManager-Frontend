@@ -97,6 +97,9 @@ function UserPage () {
             }});   
         } else {
         //console.log(fullYear, month, day, startTimeHour = AMorPM === "PM" ? ((startTime*1) + 12).toString() : startTimeHour, startTimeMinutes);        
+        console.log(amOrPm === "PM" ? ((startTimeHour*1) + 12).toString() : startTimeHour);
+        console.log(endTimeHour = endAmOrPm === "PM" ? ((endTimeHour*1) + 12).toString() : endTimeHour)
+
         const startTimeDate = formattedDate(startTimeHour = amOrPm === "PM" ? ((startTimeHour*1) + 12).toString() : startTimeHour, startTimeMin, selectedDate);
         //console.log(startTimeDate);
         const endTimeDate = formattedDate(endTimeHour = endAmOrPm === "PM" ? ((endTimeHour*1) + 12).toString() : endTimeHour, endTimeMin, selectedDate)
@@ -142,6 +145,8 @@ function UserPage () {
         let hours = newDate.getHours();
         let minutes = newDate.getMinutes();
 
+        console.log(hours);
+
         if(minutes === 0){
             minutes = `00`;
         }
@@ -149,7 +154,7 @@ function UserPage () {
         if(hours > 12){
             hours -= 12;
         }
-            return `${hours}:${minutes}${amOrPm}`
+            return `${hours === 0 ? 12 : hours}:${minutes}${amOrPm}`
         
         
         
@@ -289,8 +294,9 @@ function UserPage () {
         return new Date(year, month, day, 24, 0);
     }
     
-    //This will sort our tasks Array for us using their starting time in milliseconds
-    let sortedTasks = tasks.data ? tasks.data.sort((a, b) => {
+    //This will sort our tasks Array for us using their starting time in milliseconds        
+
+    let sortedTasks = (tasks.data && Array.isArray(tasks.data) ) ? tasks.data.sort((a, b) => {
         const millisecondsA = new Date(a.startTime).getTime();
         const millisecondsB = new Date(b.startTime).getTime();        
 
